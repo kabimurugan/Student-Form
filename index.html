@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Form</title>
+
+    <style>
+    body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #f1bfe4; /* light bg */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: grid;
+    row-gap: 4px;
+    column-gap: 10px;
+    width: 320px;
+    padding: 25px;
+    border-radius: 12px;
+    background: #eb98d5;  /* card bg */
+    border: 1px solid #666;
+    -webkit-box-shadow: -3.6px -0.7px 22.2px 7.2px rgba(0, 0, 0, 0.4);
+    box-shadow: -3.6px -0.7px 22.2px 7.2px rgba(0, 0, 0, 0.4);
+}
+
+label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #222;
+    padding-left: 20px;
+}
+
+input,
+textarea {
+    width: 90%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1.6px solid #000;
+    box-sizing: border-box;
+    font-size: 14px;
+    justify-self: center;
+}
+
+input[type="submit"] {
+    margin-top: 10px;
+    justify-self: center;
+    background: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+input[type="submit"]:hover {
+    background: #000;
+    color: #fff;
+}
+
+span,
+#textareaerror,
+#max {
+    color: red;
+    font-size: 13px;
+    margin: 0;
+    display: none; /* hidden by default */
+}
+
+#characters {
+    text-align: center;
+    font-size: 13px;
+    margin: 0;
+    color: #000;
+}
+
+    </style>
+</head>
+
+<body>
+    <form action="" class="container">
+
+        <label for="name">Name :</label>
+        <input type="text" id="names" required><br>
+        <span id="nameerror">*Enter the valid name</span><br>
+
+        <label for="email">Email :</label>
+        <input type="email" id="email" required><br>
+        <span id="emailerror">*Please enter the valid email</span><br>
+
+        <label for="password">Password :</label>
+        <input type="text" id="password" required><br>
+        <span id="passworderror">*Password must contain at least six characters</span><br>
+
+        <label for="textarea">Message :</label>
+        <textarea name="" id="textarea"></textarea><br>
+        <p id="characters">(0/10 characters)</p>
+        <p id="textareaerror" style=" color: red;">Type Atleast 6 characters</p>
+        <p id="max" style=" color: red;">Maximum Reached</p>
+
+
+
+        <input type="submit" value="Submit" id="submit">
+
+    </form>
+</body>
+
+</html>
+
+<script>
+    var names = document.getElementById("names")
+    var email = document.getElementById("email")
+    var password = document.getElementById("password")
+    var textarea = document.getElementById("textarea")
+    var characters = document.getElementById("characters")
+    var submit = document.getElementById("submit")
+
+    var nameerror = document.getElementById("nameerror")
+    var emailerror = document.getElementById("emailerror")
+    var passworderror = document.getElementById("passworderror")
+    var textareaerror = document.getElementById("textareaerror")
+
+    var maximum = 10
+
+
+    var textarea = document.getElementById("textarea")
+    var characters = document.getElementById("characters")
+    var max = document.getElementById("max")
+    var maximum = 10
+
+    textarea.addEventListener("input", function () {
+        var length = textarea.value.length
+        characters.textContent = "(" + length + "/" + maximum + " characters)"
+
+        if (length > maximum) {
+            max.style.display = "block"
+            textarea.value = textarea.value.substring(0, maximum) // cut extra letters
+            characters.textContent = "(" + maximum + "/" + maximum + " characters)"
+        } else {
+            max.style.display = "none"
+        }
+    })
+
+
+
+    submit.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        var nameregex = /^[a-zA-Z]+$/;
+        var emailregex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+        var passwordregex = /^\d{6}$/;  // atleast 6 characters
+        var textarearegex = /\w{6}/
+
+        var maximum = 10
+
+        var isValid = true;
+
+        if (!nameregex.test(names.value)) {
+            nameerror.style.display = "block";
+            isValid = false;
+        } else {
+            nameerror.style.display = "none";
+        }
+
+        if (!emailregex.test(email.value)) {
+            emailerror.style.display = "block";
+            isValid = false;
+        } else {
+            emailerror.style.display = "none";
+        }
+
+        if (!passwordregex.test(password.value)) {
+            passworderror.style.display = "block";
+            isValid = false;
+        } else {
+            passworderror.style.display = "none";
+        }
+
+        if (!textarearegex.test(textarea.value)) {
+            textareaerror.style.display = "block"
+            isValid = false
+
+        }
+        else {
+            textareaerror.style.display = "none"
+        }
+
+        if (isValid) {
+            alert("Submitted Successfully");
+        }
+
+    })
+</script>
+
+
+
+<!-- <div>
+    <textarea name="" id="textarea"></textarea>
+    <p id="characters">(0/10 characters)</p>
+    <p id="max" style="display: none;">maximum reached</p>
+</div>
+
+
+<script>
+
+    var textarea = document.getElementById("textarea")
+    var characters = document.getElementById("characters")
+    var max = document.getElementById("max")
+    var maximum = 10
+
+    textarea.addEventListener("input",function(){
+
+        var length = textarea.value.length
+
+        characters.textContent = length +"/"+maximum+"characters"
+
+        if(maximum<length){
+            max.style.display = "block"
+            textarea.value = textarea.value.substring(0, maximum); // stop extra typing
+        }
+        else{
+            max.style.display = "none"
+        }
+
+        
+    })
+
+</script> -->
